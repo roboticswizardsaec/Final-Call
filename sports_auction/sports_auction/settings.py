@@ -36,7 +36,22 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'sports_auction.urls'
 
 # ... (Templates and WSGI stay the same) ...
-
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], # Points to your templates folder
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+WSGI_APPLICATION = 'sports_auction.wsgi.application'
 # --- DATABASE (NEON) ---
 DATABASES = {
     'default': dj_database_url.config(
@@ -45,7 +60,12 @@ DATABASES = {
         ssl_require=True
     )
 }
-
+AUTH_PASSWORD_VALIDATORS = [
+    { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
+]
 # --- STATIC FILES (CRITICAL FIX FOR RENDER) ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Where Render collects files
