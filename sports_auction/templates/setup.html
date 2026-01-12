@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head><title>Setup Auction</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-4">
+    <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 w-full max-w-lg shadow-2xl relative">
+        
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-cyan-400">Auction Setup</h1>
+            <a href="/archives/" class="text-sm text-slate-400 underline hover:text-white">View History</a>
+        </div>
+
+        {% if active_event %}
+        <form method="POST" class="mb-8 border-b border-slate-700 pb-8">
+            {% csrf_token %}
+            <input type="hidden" name="action_type" value="continue">
+            <div class="bg-green-900/20 border border-green-500/30 p-4 rounded-xl text-center">
+                <h3 class="font-bold text-green-400 text-lg mb-1">Active: {{ active_event.name }}</h3>
+                <p class="text-xs text-slate-400 mb-4">Resume where you left off.</p>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-500 py-3 rounded-lg font-bold transition shadow-lg">
+                    RESUME AUCTION ⏩
+                </button>
+            </div>
+        </form>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-5">
+            {% csrf_token %}
+            <input type="hidden" name="action_type" value="new">
+            
+           <div class="grid grid-cols-3 gap-4">
+    <div class="col-span-2">
+        <label class="text-xs font-bold text-slate-400 uppercase">Event Name</label>
+        <input type="text" name="event_name" placeholder="e.g. IPL 2026" required class="w-full bg-slate-900 border border-slate-700 rounded p-3 mt-1 text-white"/>
+    </div>
+    <div>
+        <label class="text-xs font-bold text-slate-400 uppercase">Admin PIN</label>
+        <input type="text" name="admin_pin" value="1234" class="w-full bg-slate-900 border border-slate-700 rounded p-3 mt-1 text-cyan-400 font-mono text-center tracking-widest"/>
+    </div>
+</div>
+
+            <div class="bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg">
+                <label class="block text-sm font-bold text-blue-300 mb-2">Upload Data (Excel/CSV)</label>
+                <input type="file" name="file_upload" accept=".csv, .xlsx" required class="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer"/>
+                <p class="text-[10px] text-slate-400 mt-2">
+                    Auto-maps: Name, Role, Base Price, Email, etc.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-400">TEAMS</label>
+                    <input type="number" name="team_count" value="4" class="w-full bg-slate-900 border border-slate-700 rounded p-3 mt-1"/>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-400">BUDGET</label>
+                    <input type="number" name="budget" value="10000" class="w-full bg-slate-900 border border-slate-700 rounded p-3 mt-1"/>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 py-4 rounded-xl font-bold text-lg shadow-lg shadow-cyan-900/20 transition-all mt-4">
+                CREATE NEW EVENT
+            </button>
+        </form>
+    </div>
+</body>
+</html>
